@@ -69,5 +69,95 @@ public class Traverse {
     v45.neighbors = new ArrayList<>(List.of(v23));
     v23.neighbors = new ArrayList<>(List.of());
     v67.neighbors = new ArrayList<>(List.of(v91));
+
+    printVertices(graph, 3);
+    printGossipers(diana);
+
+  }
+
+  // prints all gossipers in the graph
+  public static void printGossipers(Person person) {
+    Set<Person> visited = new HashSet<>();
+    printGossipersHelper(person, visited);
+
+  }
+
+  public static void printGossipersHelper(Person person, Set<Person> visited) {
+    // base case
+    if (person == null) {
+      return;
+    }
+
+    if (visited.contains(person)) {
+      return;
+    }
+
+    System.out.println(person.getName());
+
+    visited.add(person);
+
+    // visit all neighbors
+    for (Person confidant : person.getConfidants()) {
+      printGossipersHelper(confidant, visited);
+    }
+  }
+
+  // prints all vertices in the graph
+  public static <T> void printVertices(Map<Integer, Set<Integer>> graph, int start) {
+    Set<Integer> visited = new HashSet<>();
+    printVerticesHelper(graph, start, visited); 
+  }
+
+  public static <T> void printVerticesHelper(Map<Integer, Set<Integer>> graph, int start, Set<Integer> visited) {
+    // base case
+    if (!graph.containsKey(start)) {
+      return;
+    }
+    
+    if (graph == null) {
+      return;
+    }
+
+    if (visited.contains(start)) {
+      return;
+    }
+
+    System.out.println(start);
+
+    visited.add(start);
+
+    // visit all neighbors
+    for (int neighbor : graph.get(start)) {
+      printVerticesHelper(graph, neighbor, visited);
+    }
+  }
+
+  // core logic
+  public static <T> void printVertices(Vertex<T> vertex) {
+    // dfs traversal
+    Set<Vertex<T>> visited = new HashSet<>();
+    printHelper(vertex, visited);
+
+  }
+
+  public static <T> void printHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
+    // dfs helper
+    // base case
+    if(vertex == null) {
+      return;
+    }
+    // if already visited
+    if (visited.contains(vertex)) {
+      return;
+    }
+
+    System.out.println(vertex.data);
+
+    visited.add(vertex);
+
+    // visit all neighbors
+    for (Vertex<T> neighbor : vertex.neighbors) {
+      printHelper(neighbor, visited);
+    }
   }
 }
